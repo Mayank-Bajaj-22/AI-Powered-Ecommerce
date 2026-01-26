@@ -12,3 +12,5 @@ const connectDB = async () => {
 }
 
 export default connectDB;
+
+// if export default then import like normal without {} this bracket
