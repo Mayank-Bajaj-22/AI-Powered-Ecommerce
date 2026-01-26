@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
         unique: true
     },
     password: {
-        type: required
+        type: String
     },
     cartData: {
         type: Object,
