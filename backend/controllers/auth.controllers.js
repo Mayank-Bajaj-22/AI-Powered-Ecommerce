@@ -66,3 +66,18 @@ export const login = async (req, res) => {
         return res.status(500).json({ message: `error in login controllers: ${error}` });
     }
 }
+
+export const logOut = async (req, res) => {
+    try {
+        res.clearCookie("token", {
+            sameSite: true,
+            secure: true
+        })
+
+        return res.status(200).json({ message: "logout successfully"})
+        
+    } catch (error) {
+        console.log("logOut error")
+        return res.status(500).json({ message: `error in logOut controllers: ${error}` });
+    }
+}
