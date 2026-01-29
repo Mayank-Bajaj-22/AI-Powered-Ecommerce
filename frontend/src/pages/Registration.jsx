@@ -6,6 +6,8 @@ import { FiEye } from "react-icons/fi";
 import { FiEyeOff } from "react-icons/fi";
 import { authDataContext } from '../context/authContext';
 import axios from 'axios';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../utils/Firebase';
 
 function Registration() {
 
@@ -38,6 +40,28 @@ function Registration() {
         }
     }
 
+    const googleSignup = async () => {
+        try {
+            const response = await signInWithPopup(auth, provider);
+            let user = response.user;
+            let name = user.displayName;
+            let email = user.email;
+            
+            const result = await axios.post(serverUrl + "/api/auth/googlelogin", {
+                name, email
+            }, { withCredentials: true })
+
+            console.log(result.data)
+        } catch (error) {
+            if (error.response) {
+                console.log("Backend error:", error.response.data);
+                console.log("Status:", error.response.status);
+            } else {
+                console.log(error.message);
+            }
+        }
+    }
+
     return (
         <div className='w-[100vw] h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] text-white flex flex-col items-center justify-start'>
             <div className='w-[100%] h-[80px] flex items-center justify-start px-[30px] gap-[10px] cursor-pointer' onClick={() => navigate("/")}>
@@ -53,8 +77,8 @@ function Registration() {
 
             <div className='max-w-[550px] w-[90%] h-[500px] bg-[#00000025] border-[1px] border-[#96969635] backdrop:blur-2xl rounded-lg shadow-lg flex items-center justify-center mb-[10px] pt-[10px]'>
                 <form className='w-[90%] h-[90%] flex flex-col items-center justify-start gap-[20px]' onSubmit={handleSignUp}>
-                    <div className='w-[90%] h-[50px] bg-[#42656cae] rounded-lg flex items-center justify-center gap-[10px] py-[20px] cursor-pointer'>
-                        <img src={google} className='w-[25px]' alt="" /> <span className='text-[19px]'>Registration with Google</span>
+                    <div className='w-[90%] h-[50px] bg-[#42656cae] rounded-lg flex items-center justify-center gap-[10px] py-[20px] cursor-pointer' onClick={googleSignup}>
+                        <img src={google} className='w-[25px]' alt="" /> <span className='text-[18px]'>Registration with Google</span>
                     </div>
 
                     <div className='w-[100%] text-[20px] h-[20px] flex items-center justify-center gap-[20px]'>
