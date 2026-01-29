@@ -1,14 +1,42 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Logo from "../assets/logo.png"
 import google from "../assets/google.png"
 import { useNavigate } from "react-router-dom"
 import { FiEye } from "react-icons/fi";
 import { FiEyeOff } from "react-icons/fi";
+import { authDataContext } from '../context/authContext';
+import axios from 'axios';
 
 function Registration() {
 
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
+
+    let { serverUrl } = useContext(authDataContext);
+
+    let [name, setName] = useState("");
+    let [email, setEmail] = useState("");
+    let [password, setPassword] = useState("");
+
+    const handleSignUp = async (e) => {
+        e.preventDefault();
+        try {
+            const result = await axios.post(serverUrl + "/api/auth/register", {
+                name, email, password
+            }, { withCredentials: true })
+            console.log(result.data)
+            setName("")
+            setEmail("")
+            setPassword("")
+        } catch (error) {
+            if (error.response) {
+                console.log("Backend error:", error.response.data);
+                console.log("Status:", error.response.status);
+            } else {
+                console.log(error.message);
+            }
+        }
+    }
 
     return (
         <div className='w-[100vw] h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] text-white flex flex-col items-center justify-start'>
@@ -24,7 +52,7 @@ function Registration() {
             </div>
 
             <div className='max-w-[550px] w-[90%] h-[500px] bg-[#00000025] border-[1px] border-[#96969635] backdrop:blur-2xl rounded-lg shadow-lg flex items-center justify-center mb-[10px] pt-[10px]'>
-                <form className='w-[90%] h-[90%] flex flex-col items-center justify-start gap-[20px]'>
+                <form className='w-[90%] h-[90%] flex flex-col items-center justify-start gap-[20px]' onSubmit={handleSignUp}>
                     <div className='w-[90%] h-[50px] bg-[#42656cae] rounded-lg flex items-center justify-center gap-[10px] py-[20px] cursor-pointer'>
                         <img src={google} className='w-[25px]' alt="" /> <span className='text-[19px]'>Registration with Google</span>
                     </div>
@@ -36,11 +64,11 @@ function Registration() {
                     </div>
 
                     <div className='w-[90%] h-[400px] flex flex-col items-center justify-center gap-[15px] relative text-[19px]'>
-                        <input className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold' type="text" placeholder='userName' required />
+                        <input className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold' type="text" placeholder='userName' value={name} onChange={(e) => setName(e.target.value)} required />
 
-                        <input className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold' type="email" placeholder='email' required />
+                        <input className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold' type="email" placeholder='email' value={email} onChange={(e) => setEmail(e.target.value)} required />
 
-                        <input className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold' type={ show ? "text" : "password"} placeholder='password' required />
+                        <input className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold' type={ show ? "text" : "password"} placeholder='password' value={password} onChange={(e) => setPassword(e.target.value)} required />
 
                         { show && <FiEye className='absolute w-[20px] h-[20px] cursor-pointer top-[160px] right-[20px]' onClick={() => setShow(prev => !prev)} /> }
                         { !show && <FiEyeOff className='absolute w-[20px] h-[20px] cursor-pointer top-[160px] right-[20px]' onClick={() => setShow(prev => !prev)} /> }
