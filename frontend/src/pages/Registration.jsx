@@ -23,10 +23,10 @@ function Registration() {
                 <span></span>
             </div>
 
-            <div className='max-w-[550px] w-[90%] h-[500px] bg-[#00000025] border-[1px] border-[#96969635] backdrop:blur-2xl rounded-lg shadow-lg flex items-center justify-center mb-[20px]'>
+            <div className='max-w-[550px] w-[90%] h-[500px] bg-[#00000025] border-[1px] border-[#96969635] backdrop:blur-2xl rounded-lg shadow-lg flex items-center justify-center mb-[10px] pt-[10px]'>
                 <form className='w-[90%] h-[90%] flex flex-col items-center justify-start gap-[20px]'>
                     <div className='w-[90%] h-[50px] bg-[#42656cae] rounded-lg flex items-center justify-center gap-[10px] py-[20px] cursor-pointer'>
-                        <img src={google} className='w-[25px]' alt="" /> <span className='text-[20px]'>Registration with Google</span>
+                        <img src={google} className='w-[25px]' alt="" /> <span className='text-[19px]'>Registration with Google</span>
                     </div>
 
                     <div className='w-[100%] text-[20px] h-[20px] flex items-center justify-center gap-[20px]'>
@@ -42,14 +42,14 @@ function Registration() {
 
                         <input className='w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold' type={ show ? "text" : "password"} placeholder='password' required />
 
-                        { show && <FiEye className='absolute w-[20px] h-[20px] cursor-pointer top-[165px] right-[20px]' onClick={() => setShow(prev => !prev)} /> }
-                        { !show && <FiEyeOff className='absolute w-[20px] h-[20px] cursor-pointer top-[165px] right-[20px]' onClick={() => setShow(prev => !prev)} /> }
+                        { show && <FiEye className='absolute w-[20px] h-[20px] cursor-pointer top-[160px] right-[20px]' onClick={() => setShow(prev => !prev)} /> }
+                        { !show && <FiEyeOff className='absolute w-[20px] h-[20px] cursor-pointer top-[160px] right-[20px]' onClick={() => setShow(prev => !prev)} /> }
 
                         <button className='w-[100%] h-[50px] bg-[#6060f5] rounded-lg flex items-center justify-center mt-[20px] text-[17px] font-semibold'>
                             Create Account
                         </button>
 
-                        <p className='flex gap-[10px] text-[17px]'>You have any account? <span className='text-[#5555f6cf] text-[17px] font-semibold cursor-pointer hover:underline'>Login</span></p>
+                        <p className='flex gap-[10px] text-[17px]'>You have any account? <span className='text-[#5555f6cf] text-[17px] font-semibold cursor-pointer hover:underline' onClick={() => navigate("/login")}>Login</span></p>
                     </div>
                 </form>
             </div>
