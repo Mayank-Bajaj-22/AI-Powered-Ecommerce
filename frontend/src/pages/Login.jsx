@@ -30,7 +30,7 @@ function Login() {
             console.log(result.data);
             setEmail("")
             setPassword("")
-            getCurrentUser()
+            await getCurrentUser()
             navigate("/")
         } catch (error) {
             if (error.response) {
@@ -54,6 +54,8 @@ function Login() {
             }, { withCredentials: true })
     
             console.log(result.data)
+            getCurrentUser()
+            navigate("/")
         } catch (error) {
             if (error.response) {
                 console.log("Backend error:", error.response.data);
@@ -96,7 +98,7 @@ function Login() {
             <div className="w-[90%] h-[500px] flex flex-col items-center justify-center gap-[15px] relative text-[19px]">
 
                 <input
-                className="w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold"
+                className="w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px]"
                 type="email"
                 placeholder="email"
                 value={email} onChange={(e) => setEmail(e.target.value)}
@@ -104,7 +106,7 @@ function Login() {
                 />
 
                 <input
-                className="w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px] font-semibold"
+                className="w-[100%] h-[50px] border-[2px] border-[#96969635] backdrop:blur-sm rounded-lg shadow-lg bg-transparent placeholder-[#ffffffc7] px-[20px]"
                 type={show ? "text" : "password"}
                 placeholder="password"
                 value={password} onChange={(e) => setPassword(e.target.value)}

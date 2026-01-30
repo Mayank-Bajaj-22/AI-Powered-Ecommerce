@@ -5,21 +5,42 @@ import { IoSearchCircleSharp } from "react-icons/io5";
 import { FaCircleUser } from "react-icons/fa6";
 import { MdOutlineShoppingCart } from "react-icons/md";
 import { UserDataContext } from '../context/UserContext';
+import { useNavigate } from "react-router-dom";
+import { authDataContext } from '../context/authContext';
+import axios from 'axios';
+import { IoMdHome } from "react-icons/io";
+import { MdContacts } from "react-icons/md";
+import { BsCollectionFill } from "react-icons/bs";
 
 function Navbar() {
 
-    let { userData } = useContext(UserDataContext);
+    let { getCurrentUser, userData } = useContext(UserDataContext);
     let [showSearch, setShowSearch] = useState(false);
+    let [showProfile, setShowProfile] = useState(false);
+    const navigate = useNavigate();
+
+    let { serverUrl } = useContext(authDataContext);
+
+    const handleLogOut = async () => {
+        try {
+            let result = await axios.get(serverUrl + "/api/auth/logout", { withCredentials: true })
+            console.log(result.data);
+            await getCurrentUser();
+            navigate("/login")
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className='w-[100vw] h-[70px] bg-[#ecfafaec] z-10 fixed top-0 flex items-center justify-between px-[30px] shadow-md shadow-black'>
             
-            <div className='w-[30%] flex items-center justify-start gap-[10px]'>
+            <div className='w-[20%] lg:w-[30%] flex items-center justify-start gap-[10px]'>
                 <img src={logo} className='w-[35px]' alt="" />
                 <h1 className='text-[25px] text-black font-sans'>Vnyta</h1>
             </div>
 
-            <div className='w-[40%]'>
+            <div className='w-[50%] lg:w-[40%] hidden md:flex'>
                 <ul className='flex items-center justify-center gap-[19px] text-white'>
                     <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl'>HOME</li>
                     <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl'>COLLECTIONS</li>
@@ -38,22 +59,50 @@ function Navbar() {
                 }
 
                 {
-                    !userData && <FaCircleUser className='w-[29px] h-[29px] text-[#000000] cursor-pointer' />
+                    !userData && <FaCircleUser className='w-[29px] h-[29px] text-[#000000] cursor-pointer' onClick={() => setShowProfile(prev => !prev)} />
                 }
 
                 {
-                    userData && <div className='w-[30px] h-[30px] bg-[#080808] text-white rounded-full flex items-center jiustify-center p-[5px] text-[22px] cursor-pointer'>{ userData?.name.slice(0,1)}</div>
+                    userData && <div className='w-[30px] h-[30px] bg-[#080808] text-white rounded-full flex items-center justify-center cursor-pointer text-[20px]' onClick={() => setShowProfile(prev => !prev)}>{ userData?.name.slice(0,1)}</div>
                 }
                 
-                <MdOutlineShoppingCart className='w-[30px] h-[30px] text-[#000000] cursor-pointer' />
-                <p className='absolute w-[19px] h-[19px] items-center justify-center bg-black px-[5px] py-[3px] text-white rounded-full text-[10px] top-[12px] right-[23px]'>10</p>
+                <MdOutlineShoppingCart className='w-[30px] h-[30px] text-[#000000] cursor-pointer hidden md:block' />
+                <p className='absolute w-[19px] h-[19px] items-center justify-center bg-black px-[5px] py-[3px] text-white rounded-full text-[10px] top-[12px] right-[23px] hidden md:block'>10</p>
             </div>
 
             {
                 showSearch && <div className='w-[100%] h-[80px] absolute top-[100%] left-0 right-0 flex items-center justify-center'>
-                    <input type="text" className='w-[50%] h-[60%] bg-[#233533] rounded-[30px] px-[50px] placeholder:text-white text-[18px]' />
+                    <input type="text" className='w-[90%] md:w-[50%] text-white h-[60%] bg-[#233533] rounded-[30px] px-[50px] placeholder:text-white text-[18px]' placeholder='Search Here' />
                 </div> 
             }
+            {
+                showProfile && <div className='absolute w-[220px] h-[150px] bg-[#000000d7] top-[110%] right-[4%] border-[1px] border-[#aaa9a9] rounded-[10px] z-10'>
+                    <ul className='w-[100%] h-[100%] flex items-start justify-around flex-col text-[17px] py-[10px] text-white'>
+                        {
+                            !userData && <li className='w-[100%] hover:bg-[#2f2f2f] px-[15px] py-[10px] cursor-pointer' onClick={() => {navigate("/login"); setShowProfile(false)}}>LogIn</li>
+                        }
+                        {
+                            userData && <li className='w-[100%] hover:bg-[#2f2f2f] px-[15px] py-[10px] cursor-pointer' onClick={() => {handleLogOut(); setShowProfile(false)}}>LogOut</li>
+                        }
+                        <li className='w-[100%] hover:bg-[#2f2f2f] px-[15px] py-[10px] cursor-pointer'>Orders</li>
+                        <li className='w-[100%] hover:bg-[#2f2f2f] px-[15px] py-[10px] cursor-pointer'>About</li>
+                    </ul>
+                </div>
+            }
+            <div className='w-[100vw] h-[70px] flex items-center justify-between px-[20px] fixed bottom-0 left-0 bg-[#191818] md:hidden text-[13px]'>
+                <button className='text-white flex items-center justify-center flex-col gap-[4px]'>
+                    <IoMdHome className='w-[25px] h-[25px] text-white md:hidden' /> Home
+                </button>
+                <button className='text-white flex items-center justify-center flex-col gap-[4px] mt-[5px]'>
+                    <BsCollectionFill className='w-[22px] h-[22px] text-white md:hidden' /> Collections
+                </button>
+                <button className='text-white flex items-center justify-center flex-col gap-[4px] mt-[4px]'>
+                    <MdContacts className='w-[23px] h-[23px] text-white md:hidden' /> Contact
+                </button>
+                <button className='text-white flex items-center justify-center flex-col gap-[4px] mt-[4px]'>
+                    <MdOutlineShoppingCart className='w-[25px] h-[25px] text-white md:hidden' /> Cart
+                </button>
+            </div>
         </div>
     )
 }
