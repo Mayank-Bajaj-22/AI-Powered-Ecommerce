@@ -8,11 +8,13 @@ import { authDataContext } from "../context/authContext";
 import axios from "axios";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/Firebase";
+import { UserDataContext } from "../context/UserContext";
 
 function Login() {
 
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
+    let { getCurrentUser } = useContext(UserDataContext);
 
     let { serverUrl } = useContext(authDataContext);
 
@@ -28,6 +30,8 @@ function Login() {
             console.log(result.data);
             setEmail("")
             setPassword("")
+            getCurrentUser()
+            navigate("/")
         } catch (error) {
             if (error.response) {
                 console.log("Backend error:", error.response.data);

@@ -8,6 +8,7 @@ import { authDataContext } from '../context/authContext';
 import axios from 'axios';
 import { signInWithPopup } from 'firebase/auth';
 import { auth, provider } from '../utils/Firebase';
+import { UserDataContext } from '../context/UserContext';
 
 function Registration() {
 
@@ -19,6 +20,7 @@ function Registration() {
     let [name, setName] = useState("");
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
+    let { getCurrentUser } = useContext(UserDataContext);
 
     const handleSignUp = async (e) => {
         e.preventDefault();
@@ -30,6 +32,8 @@ function Registration() {
             setName("")
             setEmail("")
             setPassword("")
+            getCurrentUser()
+            navigate("/")
         } catch (error) {
             if (error.response) {
                 console.log("Backend error:", error.response.data);
