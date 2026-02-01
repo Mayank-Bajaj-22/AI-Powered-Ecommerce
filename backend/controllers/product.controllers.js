@@ -46,3 +46,17 @@ export const listProduct = async (req, res) => {
         return res.status(500).json({ message: `listProduct error: ${error}` })
     }
 }
+
+export const removeProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const product = await Product.findByIdAndDelete(id)
+
+        return res.status(200).json(product)
+
+    } catch (error) {
+        console.log("removeProduct error")
+        return res.status(500).json({ message: `removeProduct error: ${error}` })
+    }
+}
