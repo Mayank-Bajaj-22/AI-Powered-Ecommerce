@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Sidebar from '../components/Sidebar'
 import upload from "../assets/upload image.jpg"
+import { authDataContext } from '../context/AuthContext';
+import axios from 'axios';
 
 function Add() {
 
@@ -17,8 +19,43 @@ function Add() {
     let [bestSeller, setBestSeller] = useState(false);
     let [sizes, setSizes] = useState([]);
 
-    const handleAddProduct = async (e) => {
+    let { serverUrl } = useContext(authDataContext)
 
+    const handleAddProduct = async (e) => {
+        e.preventDefault()
+        try {
+            let formData = new FormData()
+            formData.append("name", name)
+            formData.append("description", description)
+            formData.append("price", price)
+            formData.append("category", category)
+            formData.append("subCategory", subCategory)
+            formData.append("bestSeller", bestSeller)
+            formData.append("sizes", JSON.stringify(sizes))
+            formData.append("image1", image1)
+            formData.append("image2", image2)
+            formData.append("image3", image3)
+            formData.append("image4", image4)
+
+            let result = await axios.post(serverUrl + "/api/product/addproduct", formData , { withCredentials: true })
+
+            console.log(result.data)
+
+            if (result.data) {
+                setName("")
+                setDescription("")
+                setImages1(false)
+                setImages2(false)
+                setImages3(false)
+                setImages4(false)
+                setPrice("")
+                setBestSeller(false)
+                setCategory("Men")
+                setSubCategory("TopWear")
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -27,7 +64,7 @@ function Add() {
             <Sidebar /> 
 
             <div className='w-[82%] h-[100%] flex items-center justify-start overflow-x-hidden absolute right-0 bottom-[5%] scrollbar'>
-                <form className='w-[100%] md:w-[90%] h-[100%] mt-[150px] flex flex-col gap-[30px] py-[50px] mx-[30px] md:px-[60px]'>
+                <form onSubmit={handleAddProduct} className='w-[100%] md:w-[90%] h-[100%] mt-[150px] flex flex-col gap-[30px] py-[50px] mx-[30px] md:px-[60px]'>
                     <div className='w-[400px] h-[50px] text-[25px] md:text-[40px] text-white'>
                         Add Product Page
                     </div>
@@ -141,7 +178,7 @@ function Add() {
                     </div>
 
                     <div className='w-[80%] flex items-center justify-start gap-[10px] mt-[20px]'>
-                        <input type="checkbox" id="checkbox" className='w-[25px] h-[25px] cursor-pointer' />
+                        <input type="checkbox" id="checkbox" className='w-[25px] h-[25px] cursor-pointer' onChange={() => setBestSeller(prev => !prev)} />
                         <label htmlFor="checkbox" className='text-[18px] md:text-[22px] font-semibold'>
                             Add to BestSeller
                         </label>
