@@ -35,7 +35,7 @@ function Navbar() {
     return (
         <div className='w-[100vw] h-[70px] bg-[#ecfafaec] z-10 fixed top-0 flex items-center justify-between px-[30px] shadow-md shadow-black'>
             
-            <div className='w-[20%] lg:w-[30%] flex items-center justify-start gap-[10px]'>
+            <div className='w-[20%] lg:w-[30%] flex items-center justify-start gap-[10px]' onClick={() => navigate("/")}>
                 <img src={logo} className='w-[35px]' alt="" />
                 <h1 className='text-[25px] text-black font-sans'>Vnyta</h1>
             </div>

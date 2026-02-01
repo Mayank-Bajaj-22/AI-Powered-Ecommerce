@@ -5,6 +5,7 @@ import { FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { authDataContext } from '../context/AuthContext';
 import axios from 'axios';
+import { adminDataContext } from '../context/AdminContext';
 
 
 function Login() {
@@ -18,6 +19,8 @@ function Login() {
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
 
+    let { adminData, getAdmin } = useContext(adminDataContext)
+
     const handleAdminLogin = async (e) => {
         e.preventDefault();
         try {
@@ -27,6 +30,7 @@ function Login() {
             console.log(result.data);
             setEmail("")
             setPassword("")
+            getAdmin()
             navigate("/")
         } catch (error) {
             if (error.response) {

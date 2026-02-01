@@ -8,6 +8,7 @@ function AdminContext({ children }) {
 
     let [adminData, setAdminData] = useState(null);
     let { serverUrl } = useContext(authDataContext);
+    const [loading, setLoading] = useState(true);
 
     const getAdmin = async () => {
         try {
@@ -17,6 +18,8 @@ function AdminContext({ children }) {
         } catch (error) {
             setAdminData(null)
             console.log(error)
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -27,7 +30,9 @@ function AdminContext({ children }) {
     let value = {
         adminData, 
         setAdminData,
-        getAdmin
+        getAdmin,
+        loading, 
+        setLoading
     }
 
     return (
