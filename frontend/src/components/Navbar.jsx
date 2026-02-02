@@ -42,10 +42,10 @@ function Navbar() {
 
             <div className='w-[50%] lg:w-[40%] hidden md:flex'>
                 <ul className='flex items-center justify-center gap-[19px] text-white'>
-                    <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl'>HOME</li>
-                    <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl'>COLLECTIONS</li>
-                    <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl'>ABOUT</li>
-                    <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl'>CONTACT</li>
+                    <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl' onClick={() => navigate("/")}>HOME</li>
+                    <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl' onClick={() => navigate("/collection")}>COLLECTIONS</li>
+                    <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl' onClick={() => navigate("/about")}>ABOUT</li>
+                    <li className='text-[15px] hover:bg-slate-600 cursor-pointer bg-[#000000c9] py-[10px] px-[20px] rounded-2xl' onClick={() => navigate("/contact")}>CONTACT</li>
                 </ul>
             </div>
 
@@ -85,23 +85,26 @@ function Navbar() {
                             userData && <li className='w-[100%] hover:bg-[#2f2f2f] px-[15px] py-[10px] cursor-pointer' onClick={() => {handleLogOut(); setShowProfile(false)}}>LogOut</li>
                         }
                         <li className='w-[100%] hover:bg-[#2f2f2f] px-[15px] py-[10px] cursor-pointer'>Orders</li>
-                        <li className='w-[100%] hover:bg-[#2f2f2f] px-[15px] py-[10px] cursor-pointer'>About</li>
+                        <li className='w-[100%] hover:bg-[#2f2f2f] px-[15px] py-[10px] cursor-pointer' onClick={() => {navigate("/about"); setShowProfile(false)}}>About</li>
                     </ul>
                 </div>
             }
             <div className='w-[100vw] h-[70px] flex items-center justify-between px-[20px] fixed bottom-0 left-0 bg-[#191818] md:hidden text-[13px]'>
                 <button className='text-white flex items-center justify-center flex-col gap-[4px]'>
-                    <IoMdHome className='w-[25px] h-[25px] text-white md:hidden' /> Home
+                    <IoMdHome className='w-[25px] h-[25px] text-white md:hidden' onClick={() => navigate("/")} /> Home
                 </button>
                 <button className='text-white flex items-center justify-center flex-col gap-[4px] mt-[5px]'>
-                    <BsCollectionFill className='w-[22px] h-[22px] text-white md:hidden' /> Collections
+                    <BsCollectionFill className='w-[22px] h-[22px] text-white md:hidden' onClick={() => navigate("/collection")} /> Collections
                 </button>
                 <button className='text-white flex items-center justify-center flex-col gap-[4px] mt-[4px]'>
-                    <MdContacts className='w-[23px] h-[23px] text-white md:hidden' /> Contact
+                    <MdContacts className='w-[23px] h-[23px] text-white md:hidden' onClick={() => navigate("/contact")} /> Contact
                 </button>
                 <button className='text-white flex items-center justify-center flex-col gap-[4px] mt-[4px]'>
                     <MdOutlineShoppingCart className='w-[25px] h-[25px] text-white md:hidden' /> Cart
                 </button>
+                <p className='absolute w-[18px] h-[18px] flex items-center justify-center bg-white px-[5px] py-[2px] text-black font-semibold rounded-full text-[9px] top-[8px] right-[18px]'>
+                    10
+                </p>
             </div>
         </div>
     )

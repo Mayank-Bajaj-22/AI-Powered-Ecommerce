@@ -1,8 +1,20 @@
 import React from 'react'
+import LatestCollections from '../components/LatestCollections'
+import BestSeller from '../components/BestSeller'
 
 function Product() {
     return (
-        <div>Product</div>
+        <div  className='w-[99vw] min-h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-center justify-start flex-col py-[50px]'>
+
+            <div className='w-[100%] min-h-[70px] flex items-center justify-center gap-[10px] flex-col'>
+                <LatestCollections />
+            </div>
+
+            <div className='w-[100%] min-h-[70px] flex items-center justify-center gap-[10px] flex-col'>
+                <BestSeller />
+            </div>
+
+        </div>
     )
 }
 
