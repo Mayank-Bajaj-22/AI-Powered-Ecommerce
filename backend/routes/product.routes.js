@@ -13,6 +13,6 @@ productRoutes.post("/addproduct", upload.fields([
     addProduct);
 
 productRoutes.get("/list", listProduct)
-productRoutes.get("/removeproduct/:id", adminLogin, removeProduct)
+productRoutes.delete("/removeproduct/:id", removeProduct)
 
 export default productRoutes
