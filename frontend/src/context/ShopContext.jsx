@@ -24,7 +24,7 @@ function ShopContext({ children }) {
 
     useEffect(() => {
         getProducts()
-    })
+    }, [])
 
     let value = {
         products, 

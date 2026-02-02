@@ -45,8 +45,8 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    bestSeller: {
-        type: Boolean
+    bestseller: {
+        type: Boolean,       
     }
 }, { timestamps: true })
 
