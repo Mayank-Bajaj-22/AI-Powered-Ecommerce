@@ -9,6 +9,8 @@ function ShopContext({ children }) {
     let { serverUrl } = useContext(authDataContext)
 
     let [products, setProducts] = useState([]);
+    let [search, setSearch] = useState('');
+    let [showSearch, setShowSearch] = useState(false);
     let currency = "₹";
     let delivery_fee = 40;
 
@@ -31,7 +33,11 @@ function ShopContext({ children }) {
         setProducts,
         currency,
         delivery_fee,
-        getProducts
+        getProducts,
+        search, 
+        setSearch,
+        showSearch, 
+        setShowSearch
     }
 
     return (

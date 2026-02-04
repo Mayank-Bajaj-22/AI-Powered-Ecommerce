@@ -10,12 +10,13 @@ import axios from 'axios';
 import { IoMdHome } from "react-icons/io";
 import { MdContacts } from "react-icons/md";
 import { BsCollectionFill } from "react-icons/bs";
-import { authDataContext } from '../context/authContext';
+import { authDataContext } from '../context/AuthContext';
+import { shopDataContext } from '../context/ShopContext';
 
 function Navbar() {
 
     let { getCurrentUser, userData } = useContext(UserDataContext);
-    let [showSearch, setShowSearch] = useState(false);
+    let { showSearch, setShowSearch, search, setSearch } = useContext(shopDataContext)
     let [showProfile, setShowProfile] = useState(false);
     const navigate = useNavigate();
 
@@ -51,7 +52,7 @@ function Navbar() {
 
             <div className='w-[30%] flex items-center justify-end gap-[20px]'>
                 {
-                    !showSearch && <IoSearchCircleOutline className='w-[38px] h-[38px] text-[#000000] cursor-pointer' onClick={() => setShowSearch(prev => !prev)} />
+                    !showSearch && <IoSearchCircleOutline className='w-[38px] h-[38px] text-[#000000] cursor-pointer' onClick={() => {setShowSearch(prev => !prev); navigate("/collection")}} />
                 }
 
                 {
@@ -72,7 +73,7 @@ function Navbar() {
 
             {
                 showSearch && <div className='w-[100%] h-[80px] absolute top-[100%] left-0 right-0 flex items-center justify-center'>
-                    <input type="text" className='w-[90%] md:w-[50%] text-white h-[60%] bg-[#233533] rounded-[30px] px-[50px] placeholder:text-white text-[18px]' placeholder='Search Here' />
+                    <input type="text" className='w-[90%] md:w-[50%] text-white h-[60%] bg-[#233533] rounded-[30px] px-[50px] placeholder:text-white text-[18px]' placeholder='Search Here' onChange={(e) => setSearch(e.target.value)} value={search} />
                 </div> 
             }
             {

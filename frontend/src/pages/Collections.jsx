@@ -8,7 +8,7 @@ import Card from '../components/Card';
 function Collections() {
 
     let [showFilter, setShowFilter] = useState(false)
-    let { products } = useContext(shopDataContext)
+    let { products, search, showSearch } = useContext(shopDataContext)
 
     let [filterProduct, setFilterProduct] = useState([])
     let [category, setCategory] = useState([])
@@ -33,6 +33,10 @@ function Collections() {
 
     const applyFilter = () => {
         let productCopy = products.slice()
+
+        if (showSearch && search) {
+            productCopy = productCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
+        }
 
         if (category.length > 0) {
             productCopy = productCopy.filter(item => category.includes(item.category))
@@ -71,7 +75,7 @@ function Collections() {
 
     useEffect(() => {
         applyFilter()
-    }, [category, subCategory])
+    }, [category, subCategory, search, showSearch])
 
     return (
         <div className='w-[99vw] min-h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] flex items-start justify-start flex-col md:flex-row overflow-x-hidden z-[2] pt-[70px]'>
@@ -146,7 +150,7 @@ function Collections() {
                     </select>
                 </div>
 
-                <div className='lg:w-[80vw] md:w-[60vw] w-[100vw] mon-h-[70vh] flex items-center justify-center flex-wrap gap-[30px]'>
+                <div className='lg:w-[80vw] md:pb-[40px] pb-[80px] md:w-[60vw] w-[100vw] mon-h-[70vh] flex items-center justify-center flex-wrap gap-[30px]'>
                     {
                         filterProduct.map((item, index) => (
                         <Card key={index} name={item.name} image={item.image1} id={item._id} price={item.price} />
