@@ -38,7 +38,7 @@ function Lists() {
     }, [])
 
     return (
-        <div className='w-[100vw] min-h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] text-white'>
+        <div className='w-[99vw] min-h-[100vh] bg-gradient-to-l from-[#141414] to-[#0c2025] text-white'>
             <Navbar />
             
             <div className='w-[100%] h-[100%] flex items-center justify-start'>

@@ -11,6 +11,7 @@ function ShopContext({ children }) {
     let [products, setProducts] = useState([]);
     let [search, setSearch] = useState('');
     let [showSearch, setShowSearch] = useState(false);
+    let [loading,setLoading] = useState(false)
     let currency = "₹";
     let delivery_fee = 40;
 
@@ -37,7 +38,8 @@ function ShopContext({ children }) {
         search, 
         setSearch,
         showSearch, 
-        setShowSearch
+        setShowSearch,
+        loading
     }
 
     return (
