@@ -16,7 +16,7 @@ import { shopDataContext } from '../context/ShopContext';
 function Navbar() {
 
     let { getCurrentUser, userData } = useContext(UserDataContext);
-    let { showSearch, setShowSearch, search, setSearch } = useContext(shopDataContext)
+    let { showSearch, setShowSearch, search, setSearch, getCartCount } = useContext(shopDataContext)
     let [showProfile, setShowProfile] = useState(false);
     const navigate = useNavigate();
 
@@ -68,7 +68,7 @@ function Navbar() {
                 }
                 
                 <MdOutlineShoppingCart className='w-[30px] h-[30px] text-[#000000] cursor-pointer hidden md:block' />
-                <p className='absolute w-[19px] h-[19px] items-center justify-center bg-black px-[5px] py-[3px] text-white rounded-full text-[10px] top-[12px] right-[23px] hidden md:block'>10</p>
+                <p className='absolute w-[19px] h-[19px] items-center justify-center bg-black px-[5px] py-[2px] text-white rounded-full text-[12px] top-[12px] text-center right-[23px] hidden md:block'>{ getCartCount() }</p>
             </div>
 
             {
@@ -104,7 +104,7 @@ function Navbar() {
                     <MdOutlineShoppingCart className='w-[25px] h-[25px] text-white md:hidden' /> Cart
                 </button>
                 <p className='absolute w-[18px] h-[18px] flex items-center justify-center bg-white px-[5px] py-[2px] text-black font-semibold rounded-full text-[9px] top-[8px] right-[18px]'>
-                    10
+                    { getCartCount() }
                 </p>
             </div>
         </div>

@@ -12,6 +12,7 @@ function ShopContext({ children }) {
     let [search, setSearch] = useState('');
     let [showSearch, setShowSearch] = useState(false);
     let [loading,setLoading] = useState(false)
+    let [cartItem, setCartItem] = useState({});
     let currency = "₹";
     let delivery_fee = 40;
 
@@ -23,6 +24,45 @@ function ShopContext({ children }) {
         } catch (error) {
             
         }
+    }
+
+    const addtoCart = async (itemId , size) => {
+        if (!size) {
+            console.log("Select Product Size");
+            return;
+        }
+
+        let cartData = structuredClone(cartItem); // Clone the product
+
+        if (cartData[itemId]) {
+            if (cartData[itemId][size]) {
+                cartData[itemId][size] += 1;
+            } else {
+                cartData[itemId][size] = 1;
+            }
+        } else {
+            cartData[itemId] = {};
+            cartData[itemId][size] = 1;
+        }
+
+        setCartItem(cartData);
+        console.log(cartData)
+    }
+
+    const getCartCount = () => {
+        let totalCount = 0;
+        for (const items in cartItem) {
+            for (const item in cartItem[items]) {
+                try {
+                    if (cartItem[items][item] > 0) {
+                        totalCount += cartItem[items][item]
+                    }
+                } catch (error) {
+
+                }
+            }
+        }
+        return totalCount
     }
 
     useEffect(() => {
@@ -39,7 +79,11 @@ function ShopContext({ children }) {
         setSearch,
         showSearch, 
         setShowSearch,
-        loading
+        loading,
+        addtoCart,
+        getCartCount,
+        cartItem, 
+        setCartItem
     }
 
     return (
