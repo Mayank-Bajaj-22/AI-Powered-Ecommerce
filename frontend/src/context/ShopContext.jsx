@@ -1,15 +1,19 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { authDataContext } from './AuthContext';
 import axios from 'axios';
+import { UserDataContext } from './UserContext';
+import { toast } from 'react-toastify' 
 
 export const shopDataContext = createContext();
 
 function ShopContext({ children }) {
 
     let { serverUrl } = useContext(authDataContext)
+    let { userData } = useContext(UserDataContext)
 
     let [products, setProducts] = useState([]);
     let [search, setSearch] = useState('');
+    
     let [showSearch, setShowSearch] = useState(false);
     let [loading,setLoading] = useState(false)
     let [cartItem, setCartItem] = useState({});
@@ -26,7 +30,7 @@ function ShopContext({ children }) {
         }
     }
 
-    const addtoCart = async (itemId , size) => {
+    const addtoCart = async (itemId, size) => {
         if (!size) {
             console.log("Select Product Size");
             return;
@@ -46,7 +50,42 @@ function ShopContext({ children }) {
         }
 
         setCartItem(cartData);
-        console.log(cartData)
+        
+        if (userData) {
+            try {
+                let result = await axios.post(serverUrl + "/api/cart/add" , {itemId, size} , {withCredentials: true})
+                console.log(result.data)
+                toast.success("Product Added")
+                // setLoading(false)
+            } catch (error) {
+                console.log(error)
+                toast.error(error.message)
+                // setLoading(false)
+            }
+        }
+    }
+
+    const getUserCart = async () => {
+        try {
+            const result = await axios.post(serverUrl + "/api/cart/get", {}, {withCredentials: true})
+            setCartItem(result.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const updateQuantity = async (itemId , size , quantity) => {
+        let cartData = structuredClone(cartItem);
+        cartData[itemId][size] = quantity
+        setCartItem(cartData)
+
+        if (userData) {
+            try {
+                await axios.post(serverUrl + "/api/cart/update", { itemId, size, quantity }, { withCredentials: true })
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
 
     const getCartCount = () => {
@@ -65,9 +104,30 @@ function ShopContext({ children }) {
         return totalCount
     }
 
+    const getCartAmount = () => {
+        let totalAmount = 0;
+        for (const items in cartItem) {
+            let itemInfo = products.find((product) => product._id === items);
+            for (const item in cartItem[items]) {
+                try {
+                    if (cartItem[items][item] > 0) {
+                        totalAmount += itemInfo.price * cartItem[items][item];
+                    }
+                } catch (error) {
+
+                }
+            }
+        }
+        return totalAmount
+    }
+
     useEffect(() => {
         getProducts()
     }, [])
+
+    useEffect(() => {
+        getUserCart()
+    })
 
     let value = {
         products, 
@@ -83,7 +143,9 @@ function ShopContext({ children }) {
         addtoCart,
         getCartCount,
         cartItem, 
-        setCartItem
+        setCartItem,
+        updateQuantity,
+        getCartAmount
     }
 
     return (
