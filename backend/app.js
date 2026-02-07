@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
     cors({
-        origin: ["https://ai-powered-ecommerce-frontend.onrender.com", "http://localhost:5174"],
+        origin: ["https://ai-powered-ecommerce-frontend.onrender.com", "https://ai-powered-ecommerce-7z2v.onrender.com"],
         credentials: true,
     })
 );
