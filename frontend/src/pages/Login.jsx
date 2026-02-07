@@ -4,12 +4,12 @@ import google from "../assets/google.png";
 import { useNavigate } from "react-router-dom";
 import { FiEye } from "react-icons/fi";
 import { FiEyeOff } from "react-icons/fi";
-import { authDataContext } from "../context/authContext";
 import axios from "axios";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/Firebase";
 import { UserDataContext } from "../context/UserContext";
 import Loading from "../components/Loading";
+import { authDataContext } from "../context/AuthContext";
 
 function Login() {
 
