@@ -1,6 +1,16 @@
 import Order from "../models/order.model.js";
 import User from "../models/user.model.js";
 
+import razorpay from 'razorpay'
+import dotenv from 'dotenv'
+dotenv.config()
+const currency = 'inr'
+
+const razorpayInstance = new razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET
+})
+
 export const PlaceOrder = async (req, res) => {
     try {
         console.log("===== PLACE ORDER DEBUG =====")
@@ -32,6 +42,44 @@ export const PlaceOrder = async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).json({message: 'Order Place error'})
+    }
+}
+
+export const placeOrderRazorpay = async (req,res) => {
+    try {        
+        const { items, amount, address } = req.body;
+        const userId = req.userId;
+
+        const orderData = {
+            items,
+            amount,
+            userId,
+            address,
+            paymentMethod: 'Razorpay',
+            payment: false,
+            date: Date.now()
+        }
+
+        const newOrder = new Order(orderData)
+        await newOrder.save()
+
+        const options = {
+            amount: amount * 100,
+            currency: currency.toUpperCase(),
+            receipt : newOrder._id.toString()
+        }
+
+        await razorpayInstance.orders.create(options, (error,order)=>{
+            if(error) {
+                console.log(error)
+                return res.status(500).json(error)
+            }
+            return res.status(200).json(order)
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message:error.message })
     }
 }
 
