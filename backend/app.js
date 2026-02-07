@@ -9,14 +9,41 @@ import orderRouter from "./routes/order.routes.js";
 
 const app = express();
 
-app.use(
-    cors({
-        origin: ["https://ai-powered-ecommerce-frontend.onrender.com", "https://ai-powered-ecommerce-7z2v.onrender.com"],
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
-        credentials: true,
-    })
-);
+// app.use(
+//     cors({
+//         origin: ["https://ai-powered-ecommerce-frontend.onrender.com", "https://ai-powered-ecommerce-7z2v.onrender.com"],
+//         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+//         allowedHeaders: ["Content-Type", "Authorization"],
+//         credentials: true,
+//     })
+// );
+
+const allowedOrigins = [
+    "https://ai-powered-ecommerce-frontend.onrender.com",
+    "https://ai-powered-ecommerce-7z2v.onrender.com"
+];
+
+app.use((req, res, next) => {
+    const origin = req.headers.origin;
+
+    if (allowedOrigins.includes(origin)) {
+        res.setHeader("Access-Control-Allow-Origin", origin);
+    }
+
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization"
+    );
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+
+    next();
+});
+
 
 app.use(express.json({ limit: "16kb" }));
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
