@@ -51,9 +51,9 @@ function Cart() {
                                 </div>
                             </div>
                             
-                            <input type="number" min={1} defaultValue={item.quantity} className=' md:max-w-20 max-w-10 md:px-2 md:py-2 py-[5px] px-[10px] text-[white] text-[18px] font-semibold bg-[#518080b4] absolute md:top-[40%] top-[46%] left-[75%] md:left-[50%] border-[1px] border-[#9ff9f9] rounded-md '  onChange={(e)=> (e.target.value === ' ' || e.target.value === '0') ? null : updateQuantity(item._id,item.size,Number(e.target.value))} />
+                            <input type="number" min={1} defaultValue={item.quantity} className=' md:max-w-20 max-w-10 md:px-2 md:py-2 py-[5px] px-[10px] text-[white] text-[18px] font-semibold bg-[#518080b4] absolute md:top-[40%] top-[46%] left-[80%] md:left-[50%] border-[1px] border-[#9ff9f9] rounded-md '  onChange={(e)=> (e.target.value === ' ' || e.target.value === '0') ? null : updateQuantity(item._id,item.size,Number(e.target.value))} />
 
-                            <RiDeleteBin6Line  className='text-[#9ff9f9] w-[25px] h-[25px] absolute top-[50%] md:top-[40%] md:right-[5%] right-1' onClick={()=>updateQuantity(item._id,item.size,0)}/>
+                            <RiDeleteBin6Line  className='text-[#9ff9f9] w-[25px] h-[25px] absolute top-[75%] md:top-[40%] md:right-[5%] right-1' onClick={()=>updateQuantity(item._id,item.size,0)}/>
                         </div>        
                     </div>
                     )

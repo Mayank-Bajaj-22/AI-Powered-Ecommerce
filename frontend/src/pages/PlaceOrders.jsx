@@ -7,6 +7,7 @@ import { shopDataContext } from '../context/ShopContext'
 import { authDataContext } from '../context/AuthContext'
 import { toast } from 'react-toastify'
 import axios from 'axios'
+import Loading from '../components/Loading'
 
 function PlaceOrders() {
 
@@ -14,6 +15,7 @@ function PlaceOrders() {
     let navigate = useNavigate()
     const { cartItem , setCartItem , getCartAmount , delivery_fee , products } = useContext(shopDataContext)
     let { serverUrl } = useContext(authDataContext)
+    let [loading ,setLoading] = useState(false)
 
     let [formData,setFormData] = useState({
         firstName:'',
@@ -146,7 +148,9 @@ function PlaceOrders() {
                     </div>
 
                     <div>
-                        <button type='submit' className='text-[18px] active:bg-slate-500 cursor-pointer bg-[#3bcee848] py-[10px] px-[50px] rounded-2xl text-white flex items-center justify-center gap-[20px] absolute lg:right-[20%] bottom-[5%] md:bottom-[10%] right-[25%] md:right-[35%] border-[1px] border-[#80808049] ml-[30px] mt-[20px]'>PLACE ORDER</button>
+                        <button type='submit' className='text-[18px] active:bg-slate-500 cursor-pointer bg-[#3bcee848] py-[10px] px-[50px] rounded-2xl text-white flex items-center justify-center gap-[20px] absolute lg:right-[20%] bottom-[5%] md:bottom-[10%] right-[25%] md:right-[35%] border-[1px] border-[#80808049] ml-[30px] mt-[20px]'>
+                            {loading? <Loading /> : "PLACE ORDER"}
+                        </button>
                     </div> 
                 </form>
             </div>

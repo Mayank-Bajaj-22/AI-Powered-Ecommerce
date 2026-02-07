@@ -9,12 +9,14 @@ import axios from "axios";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/Firebase";
 import { UserDataContext } from "../context/UserContext";
+import Loading from "../components/Loading";
 
 function Login() {
 
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
     let { getCurrentUser } = useContext(UserDataContext);
+    let [loading,setLoading] = useState(false)
 
     let { serverUrl } = useContext(authDataContext);
 
@@ -127,7 +129,7 @@ function Login() {
                 )}
 
                 <button className="w-[100%] h-[50px] bg-[#6060f5] rounded-lg flex items-center justify-center mt-[20px] text-[17px] font-semibold">
-                Login
+                {loading? <Loading /> : "Login"}
                 </button>
 
                 <p className="flex gap-[10px] text-[17px]">
