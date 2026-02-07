@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import Logo from "../assets/Logo.png"
+import Logo from "../assets/logo.png"
 import { FiEye } from "react-icons/fi";
 import { FiEyeOff } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
