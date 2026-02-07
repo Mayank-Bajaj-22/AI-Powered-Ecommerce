@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { authDataContext } from '../context/AuthContext';
 import axios from 'axios';
 import { adminDataContext } from '../context/AdminContext';
-
+import { toast } from 'react-toastify';
 
 function Login() {
 
@@ -18,6 +18,7 @@ function Login() {
 
     let [email, setEmail] = useState("");
     let [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false)
 
     let { adminData, getAdmin } = useContext(adminDataContext)
 
@@ -28,6 +29,7 @@ function Login() {
                 withCredentials: true
             })
             console.log(result.data);
+            toast.success("AdminLogin Successfully")
             setEmail("")
             setPassword("")
             getAdmin()
@@ -36,8 +38,10 @@ function Login() {
             if (error.response) {
                 console.log("Backend error:", error.response.data);
                 console.log("Status:", error.response.status);
+                toast.error("AdminLogin Failed")
             } else {
                 console.log(error.message);
+                toast.error("AdminLogin Failed")
             }
         }
     }

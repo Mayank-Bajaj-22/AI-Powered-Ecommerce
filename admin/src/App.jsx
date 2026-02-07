@@ -6,6 +6,7 @@ import Lists from './pages/Lists';
 import Orders from './pages/Orders';
 import Login from './pages/Login';
 import { adminDataContext } from './context/AdminContext';
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
 
@@ -13,6 +14,8 @@ function App() {
   if (loading) return null;
 
   return (
+    <>
+    <ToastContainer />
     <Routes>
       <Route
         path="/"
@@ -39,6 +42,7 @@ function App() {
         element={!adminData ? <Login /> : <Navigate to="/" />}
       />
     </Routes>
+    </>
   )
 }
 

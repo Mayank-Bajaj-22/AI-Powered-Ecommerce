@@ -13,6 +13,9 @@ import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import PlaceOrders from "./pages/PlaceOrders";
 import Orders from "./pages/Orders";
+import NotFound from "./pages/NotFound";
+import Ai from "./components/Ai";
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
   let { userData } = useContext(UserDataContext);
@@ -21,6 +24,7 @@ function App() {
   return (
     <div className="text-3xl">
       <>
+      <ToastContainer />
         {userData && <Navbar />}
         <Routes>
           <Route
@@ -141,7 +145,11 @@ function App() {
               )
             }
           />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
+
+        <Ai />
       </>
     </div>
   );

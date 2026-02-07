@@ -4,6 +4,8 @@ import Sidebar from '../components/Sidebar'
 import upload from "../assets/upload image.jpg"
 import { authDataContext } from '../context/AuthContext';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import Loading from '../components/Loading';
 
 function Add() {
 
@@ -18,10 +20,12 @@ function Add() {
     let [price, setPrice] = useState("");
     let [bestSeller, setBestSeller] = useState(false);
     let [sizes, setSizes] = useState([]);
+    const [loading, setLoading] = useState(false)
 
     let { serverUrl } = useContext(authDataContext)
 
     const handleAddProduct = async (e) => {
+        setLoading(true)
         e.preventDefault()
         try {
             let formData = new FormData()
@@ -41,6 +45,10 @@ function Add() {
 
             console.log(result.data)
 
+            toast.success("Prodct Added Successfully")
+
+            setLoading(false)
+
             if (result.data) {
                 setName("")
                 setDescription("")
@@ -55,6 +63,8 @@ function Add() {
             }
         } catch (error) {
             console.log(error)
+            setLoading(false)
+            toast.error("Prodct Add Failed")
         }
     }
 
@@ -185,7 +195,7 @@ function Add() {
                     </div>
 
                     <button className='w-[140px] p-[20px] rounded-xl bg-[#65d8f7] flex items-center justify-center gap-[10px] text-black active:bg-slate-700 active:text-white active:border-[2px] border-white'>
-                        Add Product
+                        { loading ? <Loading /> : "Add Product"}
                     </button>
                 </form>
             </div>
