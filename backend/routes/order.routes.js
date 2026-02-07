@@ -1,10 +1,16 @@
 import express from "express";
 import isAuth from "../middlewares/isAuth.js";
-import { PlaceOrder, UserOrders } from "../controllers/order.controllers.js";
+import { AllOrders, PlaceOrder, UpdateStatus, UserOrders } from "../controllers/order.controllers.js";
+import adminAuth from "../middlewares/adminAuth.js";
 
 const orderRouter = express.Router();
 
+// user
 orderRouter.post("/placeorder", isAuth, PlaceOrder)
 orderRouter.post("/userorder", isAuth, UserOrders)
 
-export default orderRouter
+// admin
+orderRouter.post("/list", adminAuth, AllOrders)
+orderRouter.post("/status", adminAuth, UpdateStatus)
+
+export default orderRouter;
