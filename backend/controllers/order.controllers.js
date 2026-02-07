@@ -3,8 +3,16 @@ import User from "../models/user.model.js";
 
 export const PlaceOrder = async (req, res) => {
     try {
+        console.log("===== PLACE ORDER DEBUG =====")
+            console.log("USER ID:", req.userId)
+            console.log("BODY:", req.body)
         const { items, amount , address } = req.body;
         const userId = req.userId;
+
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized - No userId" });
+        }
+
         const orderData = {
             items,
             amount,
